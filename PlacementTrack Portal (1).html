@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlaceTrack — College Placement Portal</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --primary-soft: #eff6ff;
+      --success: #15803d;
+      --success-soft: #dcfce7;
+      --warning: #b45309;
+      --warning-soft: #fef3c7;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --purple: #6d28d9;
+      --purple-soft: #ede9fe;
+      --radius: 14px;
+      --shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+      --shadow-hover: 0 10px 26px rgba(37, 99, 235, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ================= LOGIN SCREEN ================= */
+    .auth-wrapper {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.08fr 1fr;
+      background: #fff;
+    }
+
+    .auth-visual {
+      background:
+        linear-gradient(155deg, rgba(15, 23, 42, 0.84) 0%, rgba(30, 64, 175, 0.86) 100%),
+        url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      color: #fff;
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+      flex-shrink: 0;
+    }
+
+    .auth-visual h2 {
+      font-size: 2.15rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .auth-visual p {
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 1rem;
+      max-width: 480px;
+    }
+
+    .auth-features {
+      display: grid;
+      gap: 12px;
+      margin-top: 28px;
+      max-width: 460px;
+    }
+
+    .auth-feature-item {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+
+    .auth-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 24px;
+      background: var(--bg);
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+    }
+
+    .role-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin: 18px 0;
+    }
+
+    .role-btn {
+      border: none;
+      background: transparent;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .role-btn.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    }
+
+    .demo-box {
+      margin-top: 18px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+    }
+
+    .demo-box-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .demo-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .demo-pill {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .demo-pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .auth-error {
+      background: var(--danger-soft);
+      color: var(--danger);
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 9px 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    /* ================= APP HEADER & LAYOUT ================= */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .nav-container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand h1 { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; }
+    .brand p { font-size: 0.78rem; color: var(--muted); }
+
+    .user-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    main {
+      max-width: 1220px;
+      margin: 22px auto 50px;
+      padding: 0 20px;
+    }
+
+    /* Photo Hero Banners */
+    .hero-banner {
+      color: #fff;
+      border-radius: 18px;
+      padding: 30px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+      overflow: hidden;
+    }
+
+    .hero-student {
+      background:
+        linear-gradient(120deg, rgba(30, 58, 138, 0.9) 0%, rgba(37, 99, 235, 0.82) 55%, rgba(79, 70, 229, 0.82) 100%),
+        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+    }
+
+    .hero-admin {
+      background:
+        linear-gradient(120deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.86) 60%, rgba(51, 65, 85, 0.82) 100%),
+        url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+    }
+
+    .hero-text { max-width: 650px; }
+    .hero-pill {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .hero-text h2 { font-size: 1.65rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
+    .hero-text p { font-size: 0.92rem; color: rgba(255, 255, 255, 0.9); }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .stat-label { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+    .stat-value { font-size: 1.65rem; font-weight: 800; line-height: 1.2; margin-top: 2px; }
+
+    /* Cards & Forms */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .profile-header { display: flex; align-items: center; gap: 14px; }
+    .avatar-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--primary-soft);
+      flex-shrink: 0;
+    }
+
+    .card-title { font-size: 1.06rem; font-weight: 700; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 14px;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .form-grid .form-group { margin-bottom: 0; }
+    label { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+
+    input, select {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: 0.9rem;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      width: 100%;
+    }
+
+    input:focus, select:focus { border-color: var(--primary); }
+
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 6px; }
+    .checkbox-item { display: flex; align-items: center; gap: 6px; font-size: 0.86rem; cursor: pointer; }
+    .checkbox-item input { width: auto; }
+
+    /* Buttons */
+    .btn {
+      border: none;
+      border-radius: 9px;
+      padding: 9px 16px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-success { background: #16a34a; color: #fff; }
+    .btn-success:hover { background: #15803d; }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: var(--bg); }
+    .btn-danger { background: var(--danger-soft); color: var(--danger); }
+    .btn-danger:hover { background: #fecaca; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Toolbar */
+    .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 18px; }
+    .toolbar input { flex: 1; min-width: 230px; }
+    .toolbar select { width: auto; }
+
+    /* Drives Grid */
+    .drives-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+
+    .drive-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .drive-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+
+    .drive-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .company-brand { display: flex; align-items: center; gap: 12px; }
+
+    .company-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    .company-title { font-size: 1.08rem; font-weight: 800; color: var(--text); }
+    .company-sub { font-size: 0.78rem; color: var(--muted); }
+    .role-title { font-size: 0.94rem; font-weight: 700; color: var(--primary-dark); margin-top: 8px; }
+
+    .drive-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 0.84rem;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: 10px;
+    }
+
+    .meta-item span { display: block; color: var(--muted); font-size: 0.74rem; }
+    .meta-item strong { color: var(--text); }
+
+    .branch-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .branch-pill {
+      font-size: 0.73rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .drive-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-success { background: var(--success-soft); color: var(--success); }
+    .badge-danger { background: var(--danger-soft); color: var(--danger); }
+    .badge-warning { background: var(--warning-soft); color: var(--warning); }
+    .badge-info { background: var(--primary-soft); color: var(--primary); }
+    .badge-purple { background: var(--purple-soft); color: var(--purple); }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.04em; background: #f8fafc; }
+
+    .table-company-cell { display: flex; align-items: center; gap: 10px; }
+    .mini-logo { width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 60;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 540px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+    }
+
+    .modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+    .close-btn { background: var(--bg); border: 1px solid var(--border); width: 32px; height: 32px; border-radius: 8px; font-size: 1.1rem; cursor: pointer; }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.22);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+      z-index: 70;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .hidden { display: none !important; }
+
+    @media (max-width: 860px) {
+      .auth-wrapper { grid-template-columns: 1fr; }
+      .auth-visual { padding: 30px 24px; }
+      .hero-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= LOGIN / REGISTER SCREEN ================= -->
+  <section id="auth-screen" class="auth-wrapper">
+    <div class="auth-visual">
+      <div class="auth-brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div>
+          <h1 style="font-size:1.3rem;">PlaceTrack Portal</h1>
+          <span style="font-size:0.82rem;opacity:0.85;">College Placement Management System</span>
+        </div>
+      </div>
+
+      <div style="margin: 32px 0;">
+        <h2>Smart, Lightweight Placement Tracking for Campus</h2>
+        <p>Centralize company visits, automate eligibility checks, and track every student's interview status in real time—without scattered WhatsApp messages or messy spreadsheets.</p>
+
+        <div class="auth-features">
+          <div class="auth-feature-item"><strong>For Students:</strong> Check eligibility across 12+ companies, apply in 1 click &amp; track offer status.</div>
+          <div class="auth-feature-item"><strong>For Admin / TPO:</strong> Publish drives, shortlist applicants &amp; export Excel/CSV reports.</div>
+        </div>
+      </div>
+
+      <div style="font-size:0.8rem; opacity:0.75;">
+        Campus Recruitment Season 2026–27
+      </div>
+    </div>
+
+    <div class="auth-panel">
+      <div class="auth-card">
+        <h2 style="font-size:1.4rem; font-weight:800;">Sign In to PlaceTrack</h2>
+        <p style="font-size:0.86rem; color:var(--muted);">Choose your member role to access the portal</p>
+
+        <div class="role-switch">
+          <button type="button" id="role-btn-student" class="role-btn active" onclick="setLoginRole('student')">Student Login</button>
+          <button type="button" id="role-btn-admin" class="role-btn" onclick="setLoginRole('admin')">Admin / TPO Login</button>
+        </div>
+
+        <div id="auth-error" class="auth-error"></div>
+
+        <!-- Student Login / Register Form -->
+        <div id="student-auth-area">
+          <form id="student-login-form" onsubmit="handleStudentLogin(event)">
+            <div class="form-group">
+              <label for="login-roll">Student Roll Number</label>
+              <input type="text" id="login-roll" placeholder="e.g., CS2023-042" required />
+            </div>
+            <div class="form-group">
+              <label for="login-stu-pass">Password</label>
+              <input type="password" id="login-stu-pass" placeholder="Enter password" required />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:11px;">Login as Student</button>
+            <p style="text-align:center; font-size:0.83rem; color:var(--muted); margin-top:12px;">
+              New student? <a href="#" onclick="toggleRegister(true); return false;" style="color:var(--primary); font-weight:600;">Create Student Account</a>
+            </p>
+          </form>
+
+          <form id="student-register-form" class="hidden" onsubmit="handleStudentRegister(event)">
+            <div class="form-group">
+              <label for="reg-name">Full Name</label>
+              <input type="text" id="reg-name" placeholder="e.g., Kabir Mehta" required />
+            </div>
+            <div class="form-grid" style="margin-bottom:12px;">
+              <div class="form-group">
+                <label for="reg-roll">Roll Number</label>
+                <input type="text" id="reg-roll" placeholder="e.g., CS2023-105" required />
+              </div>
+              <div class="form-group">
+                <label for="reg-branch">Branch</label>
+                <select id="reg-branch">
+                  <option value="CSE">CSE</option>
+                  <option value="IT">IT</option>
+                  <option value="ECE">ECE</option>
+                  <option value="ME">ME</option>
+                  <option value="EE">EE</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-grid" style="margin-bottom:14px;">
+              <div class="form-group">
+                <label for="reg-cgpa">CGPA</label>
+                <input type="number" id="reg-cgpa" step="0.1" min="0" max="10" placeholder="e.g., 8.1" required />
+              </div>
+              <div class="form-group">
+                <label for="reg-pass">Password</label>
+                <input type="password" id="reg-pass" placeholder="Create password" required />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:11px;">Register &amp; Login</button>
+            <p style="text-align:center; font-size:0.83rem; color:var(--muted); margin-top:12px;">
+              Already registered? <a href="#" onclick="toggleRegister(false); return false;" style="color:var(--primary); font-weight:600;">Back to Login</a>
+            </p>
+          </form>
+        </div>
+
+        <!-- Admin Login Form -->
+        <form id="admin-login-form" class="hidden" onsubmit="handleAdminLogin(event)">
+          <div class="form-group">
+            <label for="login-admin-user">TPO Admin Username</label>
+            <input type="text" id="login-admin-user" placeholder="admin" required />
+          </div>
+          <div class="form-group">
+            <label for="login-admin-pass">Password</label>
+            <input type="password" id="login-admin-pass" placeholder="Enter admin password" required />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; padding:11px;">Login as Admin / TPO</button>
+        </form>
+
+        <!-- Quick Demo Login Helpers -->
+        <div class="demo-box">
+          <div class="demo-box-title">Quick 1-Click Demo Login</div>
+          <div class="demo-pills">
+            <button type="button" class="demo-pill" onclick="quickDemoStudent('CS2023-042')">Student 1: Aarav (CSE)</button>
+            <button type="button" class="demo-pill" onclick="quickDemoStudent('IT2023-019')">Student 2: Priya (IT)</button>
+            <button type="button" class="demo-pill" onclick="quickDemoAdmin()">Admin / TPO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN PORTAL SHELL ================= -->
+  <div id="app-shell" class="hidden">
+    <header>
+      <div class="nav-container">
+        <div class="brand">
+          <div class="brand-logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div>
+            <h1>PlaceTrack Portal</h1>
+            <p id="header-role-sub">Campus Placement Dashboard</p>
+          </div>
+        </div>
+
+        <div class="user-nav">
+          <div class="user-chip" id="header-user-chip"></div>
+          <button class="btn btn-outline" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ================= STUDENT PORTAL ================= -->
+      <section id="view-student" class="hidden">
+        <div class="hero-banner hero-student">
+          <div class="hero-text">
+            <span class="hero-pill">Student Placement Portal • 2026–27</span>
+            <h2 id="student-welcome-title">Welcome to Your Placement Hub</h2>
+            <p>Explore verified company drives, check your live eligibility, apply in one click, and track interview updates in real time.</p>
+          </div>
+        </div>
+
+        <!-- Student Profile Bar -->
+        <div class="card">
+          <div class="card-header">
+            <div class="profile-header">
+              <div class="avatar-circle">
+                <svg viewBox="0 0 64 64" width="50" height="50">
+                  <rect width="64" height="64" fill="#dbeafe"/>
+                  <circle cx="32" cy="24" r="12" fill="#1e40af"/>
+                  <path d="M12 58c2-12 12-18 20-18s18 6 20 18" fill="#2563eb"/>
+                </svg>
+              </div>
+              <div>
+                <div class="card-title">My Academic Profile</div>
+                <small style="color: var(--muted);">Updating your CGPA or Branch automatically updates eligible companies</small>
+              </div>
+            </div>
+            <span class="badge badge-info" id="stu-badge-roll">Student</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="stu-name">Full Name</label>
+              <input type="text" id="stu-name" />
+            </div>
+            <div class="form-group">
+              <label for="stu-roll">Roll Number</label>
+              <input type="text" id="stu-roll" disabled style="background:#f8fafc;color:var(--muted);" />
+            </div>
+            <div class="form-group">
+              <label for="stu-branch">Branch</label>
+              <select id="stu-branch">
+                <option value="CSE">CSE</option>
+                <option value="IT">IT</option>
+                <option value="ECE">ECE</option>
+                <option value="ME">ME</option>
+                <option value="EE">EE</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="stu-cgpa">Current CGPA (out of 10)</label>
+              <input type="number" id="stu-cgpa" step="0.1" min="0" max="10" />
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="student-stats"></div>
+
+        <div class="toolbar">
+          <input type="text" id="student-search" placeholder="Search by company name, job title, or city..." oninput="renderStudentView()" />
+          <select id="student-filter" onchange="renderStudentView()">
+            <option value="all">All Companies</option>
+            <option value="eligible">Eligible Only</option>
+            <option value="applied">My Applications</option>
+          </select>
+          <select id="student-sort" onchange="renderStudentView()">
+            <option value="default">Sort: Featured</option>
+            <option value="ctc-desc">Highest Package (LPA)</option>
+            <option value="deadline-asc">Nearest Deadline</option>
+          </select>
+        </div>
+
+        <div class="drives-grid" id="student-drives-grid"></div>
+      </section>
+
+      <!-- ================= ADMIN / TPO PORTAL ================= -->
+      <section id="view-admin" class="hidden">
+        <div class="hero-banner hero-admin">
+          <div class="hero-text">
+            <span class="hero-pill">Training &amp; Placement Cell • Admin Portal</span>
+            <h2>Manage Campus Drives, Shortlists &amp; Placement Reports</h2>
+            <p>Publish new company drives, review applications from all students, update interview results, and export Excel-ready CSV sheets.</p>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="admin-stats"></div>
+
+        <!-- Add Drive Form -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Add New Company Drive</div>
+              <small style="color: var(--muted);">Published drives appear immediately for eligible students.</small>
+            </div>
+            <button class="btn btn-outline" onclick="resetDemoData()">Reset Demo Data</button>
+          </div>
+
+          <form id="add-drive-form" onsubmit="handleAddDrive(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="drive-company">Company Name *</label>
+                <input type="text" id="drive-company" placeholder="e.g., Microsoft" required />
+              </div>
+              <div class="form-group">
+                <label for="drive-role">Job Title *</label>
+                <input type="text" id="drive-role" placeholder="e.g., Software Engineer" required />
+              </div>
+              <div class="form-group">
+                <label for="drive-location">Location *</label>
+                <input type="text" id="drive-location" placeholder="e.g., Hyderabad" required />
+              </div>
+              <div class="form-group">
+                <label for="drive-ctc">Package (LPA) *</label>
+                <input type="number" id="drive-ctc" step="0.1" min="1" placeholder="e.g., 14.5" required />
+              </div>
+              <div class="form-group">
+                <label for="drive-cgpa">Min CGPA *</label>
+                <input type="number" id="drive-cgpa" step="0.1" min="0" max="10" placeholder="e.g., 7.5" required />
+              </div>
+              <div class="form-group">
+                <label for="drive-deadline">Application Deadline *</label>
+                <input type="date" id="drive-deadline" required />
+              </div>
+              <div class="form-group">
+                <label for="drive-date">Campus Visit Date *</label>
+                <input type="date" id="drive-date" required />
+              </div>
+              <div class="form-group">
+                <label for="drive-desc">Role Summary</label>
+                <input type="text" id="drive-desc" placeholder="e.g., Backend & cloud engineering" />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 14px;">
+              <label>Allowed Branches *</label>
+              <div class="checkbox-group">
+                <label class="checkbox-item"><input type="checkbox" name="branch" value="CSE" checked /> CSE</label>
+                <label class="checkbox-item"><input type="checkbox" name="branch" value="IT" checked /> IT</label>
+                <label class="checkbox-item"><input type="checkbox" name="branch" value="ECE" /> ECE</label>
+                <label class="checkbox-item"><input type="checkbox" name="branch" value="ME" /> ME</label>
+                <label class="checkbox-item"><input type="checkbox" name="branch" value="EE" /> EE</label>
+              </div>
+            </div>
+
+            <div style="margin-top: 16px;">
+              <button type="submit" class="btn btn-primary">+ Publish Company Drive</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Published Drives Table -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Published Companies (<span id="admin-company-count">0</span>)</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Company &amp; Job Title</th>
+                  <th>Location</th>
+                  <th>Package</th>
+                  <th>Eligibility</th>
+                  <th>Deadline</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-drives-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Applications Tracker Table with Excel/CSV Export -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Student Applications Tracker</div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <select id="admin-app-filter" onchange="renderAdminView()" style="width:auto;">
+                <option value="all">All Companies</option>
+              </select>
+              <button class="btn btn-success" onclick="exportApplicationsCSV()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download CSV (Excel)
+              </button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Branch &amp; CGPA</th>
+                  <th>Company &amp; Role</th>
+                  <th>Applied On</th>
+                  <th>Update Status</th>
+                </tr>
+              </thead>
+              <tbody id="admin-apps-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Job Details Modal -->
+  <div id="details-modal" class="modal-backdrop" onclick="if(event.target===this) closeModal()">
+    <div class="modal-card" id="modal-content"></div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // ---------- Branded Company Logos ----------
+    const COMPANY_LOGOS = {
+      tcs: { bg: "#0f172a", svg: `<svg width="32" height="32" viewBox="0 0 36 36"><text x="18" y="23" text-anchor="middle" fill="#38bdf8" font-family="Arial,sans-serif" font-weight="900" font-size="13">TCS</text></svg>` },
+      infosys: { bg: "#007cc3", svg: `<svg width="32" height="32" viewBox="0 0 36 36"><text x="18" y="23" text-anchor="middle" fill="#ffffff" font-family="Georgia,serif" font-weight="700" font-size="11">Infy</text></svg>` },
+      amazon: { bg: "#232f3e", svg: `<svg width="32" height="32" viewBox="0 0 36 36"><text x="18" y="20" text-anchor="middle" fill="#ffffff" font-family="Arial,sans-serif" font-weight="900" font-size="14">a</text><path d="M9 24c5 4 13 4 18 0" stroke="#ff9900" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>` },
+      accenture: { bg: "#f5f3ff", svg: `<svg width="32" height="32" viewBox="0 0 36 36"><path d="M11 11l14 7-14 7" stroke="#a100ff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+      wipro: { bg: "#ffffff", svg: `<svg width="34" height="34" viewBox="0 0 36 36"><circle cx="18" cy="18" r="11" stroke="#0066b2" stroke-width="2.5" stroke-dasharray="6 4" fill="none"/><circle cx="18" cy="18" r="5" fill="#e11d48"/></svg>` },
+      deloitte: { bg: "#000000", svg: `<svg width="32" height="32" viewBox="0 0 36 36"><text x="15" y="23" text-anchor="middle" fill="#ffffff" font-family="Arial,sans-serif" font-weight="800" font-size="16">D</text><circle cx="25" cy="21" r="3" fill="#86bc25"/></svg>` },
+      zoho: { bg: "#ffffff", svg: `<svg width="36" height="36" viewBox="0 0 40 40"><rect x="4" y="13" width="7" height="14" rx="2" fill="#e42527"/><rect x="12" y="13" width="7" height="14" rx="2" fill="#089949"/><rect x="20" y="13" width="7" height="14" rx="2" fill="#226db4"/><rect x="28" y="13" width="7" height="14" rx="2" fill="#f9b21d"/></svg>` },
+      cognizant: { bg: "#0033a0", svg: `<svg width="32" height="32" viewBox="0 0 36 36"><polygon points="10,18 18,9 26,18 18,27" fill="none" stroke="#38bdf8" stroke-width="3"/><circle cx="18" cy="18" r="3.5" fill="#ffffff"/></svg>` },
+      capgemini: { bg: "#f0f9ff", svg: `<svg width="32" height="32" viewBox="0 0 36 36"><path d="M10 18c0-5 5-9 10-8 4 1 6 5 5 9-1 5-6 8-11 7" stroke="#0070ad" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="22" cy="17" r="2.5" fill="#12abdb"/></svg>` },
+      goldman: { bg: "#6495ed", svg: `<svg width="34" height="34" viewBox="0 0 36 36"><text x="18" y="22" text-anchor="middle" fill="#ffffff" font-family="Georgia,serif" font-weight="700" font-size="12">GS</text></svg>` },
+      lt: { bg: "#facc15", svg: `<svg width="34" height="34" viewBox="0 0 36 36"><text x="18" y="22" text-anchor="middle" fill="#1e293b" font-family="Arial,sans-serif" font-weight="900" font-size="12">L&amp;T</text></svg>` },
+      flipkart: { bg: "#2874f0", svg: `<svg width="32" height="32" viewBox="0 0 36 36"><rect x="9" y="10" width="18" height="17" rx="3" fill="#ffe500"/><text x="18" y="23" text-anchor="middle" fill="#2874f0" font-family="Arial,sans-serif" font-weight="900" font-size="13">f</text></svg>` }
+    };
+
+    function getCompanyLogoHtml(drive, size = "md") {
+      const preset = COMPANY_LOGOS[drive.logoKey];
+      const cls = size === "sm" ? "mini-logo" : "company-logo";
+      if (preset) return `<div class="${cls}" style="background:${preset.bg};">${preset.svg}</div>`;
+      const initials = (drive.company || "CO").split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
+      return `<div class="${cls}" style="background:#2563eb;color:#fff;font-weight:800;font-size:${size === 'sm' ? '0.78rem' : '0.95rem'};">${escapeHtml(initials)}</div>`;
+    }
+
+    // ---------- Default Members & 12 Companies ----------
+    const DEFAULT_STUDENTS = [
+      { roll: "CS2023-042", password: "1234", name: "Aarav Sharma", branch: "CSE", cgpa: 7.8 },
+      { roll: "IT2023-019", password: "1234", name: "Priya Nair", branch: "IT", cgpa: 8.7 }
+    ];
+
+    const ADMIN_CREDENTIALS = { username: "admin", password: "admin123", name: "Placement Officer (TPO)" };
+
+    const DEFAULT_DRIVES = [
+      { id: "d1", logoKey: "amazon", company: "Amazon India", sector: "E-Commerce & Cloud", location: "Bengaluru / Hyderabad", role: "Software Development Engineer (SDE-1)", ctc: 24.0, minCgpa: 8.0, branches: ["CSE", "IT"], deadline: "2026-12-06", visitDate: "2026-12-12", rounds: "Online Coding Assessment → 2 Technical Interviews → Bar Raiser", desc: "Build high-scale distributed backend services and customer-facing web systems." },
+      { id: "d2", logoKey: "goldman", company: "Goldman Sachs", sector: "Investment Banking & FinTech", location: "Bengaluru", role: "Engineering Campus Analyst", ctc: 22.0, minCgpa: 8.5, branches: ["CSE", "IT"], deadline: "2026-12-09", visitDate: "2026-12-16", rounds: "Aptitude + Coding Test → 3 Technical Rounds", desc: "Design low-latency trading platforms, risk analytics, and financial data pipelines." },
+      { id: "d3", logoKey: "flipkart", company: "Flipkart", sector: "Consumer Internet", location: "Bengaluru", role: "Software Development Engineer - 1", ctc: 21.0, minCgpa: 7.8, branches: ["CSE", "IT"], deadline: "2026-12-14", visitDate: "2026-12-20", rounds: "Machine Coding → DS/Algo → Hiring Manager", desc: "Work on supply chain automation, search ranking, and checkout microservices." },
+      { id: "d4", logoKey: "infosys", company: "Infosys", sector: "IT Consulting & Services", location: "Pune / Bengaluru", role: "Specialist Programmer (SP)", ctc: 9.5, minCgpa: 7.5, branches: ["CSE", "IT", "ECE"], deadline: "2026-12-04", visitDate: "2026-12-09", rounds: "HackWithInfy Coding Round → Technical + HR Interview", desc: "Full-stack engineering and cloud modernization for global enterprise clients." },
+      { id: "d5", logoKey: "zoho", company: "Zoho Corporation", sector: "SaaS Product", location: "Chennai", role: "Member Technical Staff", ctc: 8.4, minCgpa: 7.0, branches: ["CSE", "IT", "ECE"], deadline: "2026-12-11", visitDate: "2026-12-17", rounds: "C/Java Logic Test → App Design Round → Final Technical", desc: "Develop fast, reliable SaaS modules for Zoho's global business suite." },
+      { id: "d6", logoKey: "deloitte", company: "Deloitte USI", sector: "Technology Advisory", location: "Hyderabad / Mumbai", role: "Analyst — Technology & Transformation", ctc: 8.2, minCgpa: 7.2, branches: ["CSE", "IT", "ECE"], deadline: "2026-12-07", visitDate: "2026-12-13", rounds: "Versant + Aptitude Test → Case Study & Technical Interview", desc: "Work with analytics, cloud ERP, and cybersecurity consulting teams." },
+      { id: "d7", logoKey: "capgemini", company: "Capgemini", sector: "Digital Transformation", location: "Mumbai / Bengaluru", role: "Senior Analyst (Exceller)", ctc: 7.5, minCgpa: 7.0, branches: ["CSE", "IT", "ECE"], deadline: "2026-12-15", visitDate: "2026-12-21", rounds: "Gamified Aptitude + Coding → Technical & HR Interview", desc: "Build Java/Spring Boot and React enterprise applications." },
+      { id: "d8", logoKey: "tcs", company: "TCS Digital", sector: "IT Services", location: "Pan India", role: "Systems Engineer (Digital Cadre)", ctc: 7.0, minCgpa: 7.0, branches: ["CSE", "IT", "ECE", "EE"], deadline: "2026-12-05", visitDate: "2026-12-10", rounds: "TCS NQT Advanced → Technical + Managerial + HR", desc: "Work across AI/ML, data engineering, and digital enterprise solutions." },
+      { id: "d9", logoKey: "cognizant", company: "Cognizant", sector: "IT & Engineering", location: "Pune / Kolkata", role: "GenC Next Developer", ctc: 6.75, minCgpa: 6.5, branches: ["CSE", "IT", "ECE"], deadline: "2026-12-16", visitDate: "2026-12-23", rounds: "Skill Assessment (SQL/Java/Python) → Technical Interview", desc: "Full-stack software development and automated quality engineering." },
+      { id: "d10", logoKey: "accenture", company: "Accenture", sector: "Consulting & Tech", location: "Gurugram / Mumbai", role: "Associate Software Engineer (ASE)", ctc: 6.5, minCgpa: 6.5, branches: ["CSE", "IT", "ECE", "ME", "EE"], deadline: "2026-12-10", visitDate: "2026-12-15", rounds: "Cognitive + Coding Round → Communication Assessment → Interview", desc: "Design, test, and maintain cloud-native client applications." },
+      { id: "d11", logoKey: "wipro", company: "Wipro", sector: "IT Services", location: "Bengaluru / Noida", role: "Project Engineer (Turbo)", ctc: 6.5, minCgpa: 6.8, branches: ["CSE", "IT", "ECE"], deadline: "2026-12-18", visitDate: "2026-12-24", rounds: "NLTH Aptitude + Coding → Business Discussion", desc: "Enterprise software development, testing, and DevOps automation." },
+      { id: "d12", logoKey: "lt", company: "L&T Technology Services", sector: "Core Engineering & R&D", location: "Vadodara / Chennai", role: "Graduate Engineer Trainee (GET)", ctc: 5.5, minCgpa: 6.5, branches: ["ME", "EE", "ECE"], deadline: "2026-12-19", visitDate: "2026-12-26", rounds: "Core Domain Test → Technical Panel → HR", desc: "Embedded systems, industrial automation, and CAD/CAE product engineering." }
+    ];
+
+    const DEFAULT_APPLICATIONS = [
+      { id: "a1", driveId: "d8", studentName: "Aarav Sharma", roll: "CS2023-042", branch: "CSE", cgpa: 7.8, appliedOn: "2026-11-22", status: "Shortlisted" },
+      { id: "a2", driveId: "d4", studentName: "Aarav Sharma", roll: "CS2023-042", branch: "CSE", cgpa: 7.8, appliedOn: "2026-11-23", status: "Applied" },
+      { id: "a3", driveId: "d1", studentName: "Priya Nair", roll: "IT2023-019", branch: "IT", cgpa: 8.7, appliedOn: "2026-11-21", status: "Interview" },
+      { id: "a4", driveId: "d2", studentName: "Priya Nair", roll: "IT2023-019", branch: "IT", cgpa: 8.7, appliedOn: "2026-11-22", status: "Selected" }
+    ];
+
+    // ---------- Storage ----------
+    function loadData(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(fallback));
+      } catch {
+        return JSON.parse(JSON.stringify(fallback));
+      }
+    }
+
+    function saveData(key, val) {
+      localStorage.setItem(key, JSON.stringify(val));
+    }
+
+    let students = loadData("cpt_students_v3", DEFAULT_STUDENTS);
+    let drives = loadData("cpt_drives_v3", DEFAULT_DRIVES);
+    let applications = loadData("cpt_apps_v3", DEFAULT_APPLICATIONS);
+    let session = loadData("cpt_session_v3", null);
+
+    // ---------- Helpers ----------
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function isEligible(drive, stu) {
+      return Number(stu.cgpa) >= Number(drive.minCgpa) && drive.branches.includes(stu.branch);
+    }
+
+    function isDeadlinePassed(deadlineStr) {
+      const today = new Date().toISOString().split("T")[0];
+      return deadlineStr < today;
+    }
+
+    function statusBadgeClass(status) {
+      switch (status) {
+        case "Selected": return "badge-success";
+        case "Shortlisted": return "badge-info";
+        case "Interview": return "badge-purple";
+        case "Rejected": return "badge-danger";
+        default: return "badge-warning";
+      }
+    }
+
+    // ---------- Auth Logic ----------
+    function setLoginRole(role) {
+      hideAuthError();
+      document.getElementById("role-btn-student").classList.toggle("active", role === "student");
+      document.getElementById("role-btn-admin").classList.toggle("active", role === "admin");
+      document.getElementById("student-auth-area").classList.toggle("hidden", role !== "student");
+      document.getElementById("admin-login-form").classList.toggle("hidden", role !== "admin");
+    }
+
+    function toggleRegister(showReg) {
+      hideAuthError();
+      document.getElementById("student-login-form").classList.toggle("hidden", showReg);
+      document.getElementById("student-register-form").classList.toggle("hidden", !showReg);
+    }
+
+    function showAuthError(msg) {
+      const box = document.getElementById("auth-error");
+      box.textContent = msg;
+      box.style.display = "block";
+    }
+
+    function hideAuthError() {
+      document.getElementById("auth-error").style.display = "none";
+    }
+
+    function handleStudentLogin(e) {
+      e.preventDefault();
+      const roll = document.getElementById("login-roll").value.trim().toUpperCase();
+      const pass = document.getElementById("login-stu-pass").value;
+
+      const found = students.find(s => s.roll.toUpperCase() === roll && s.password === pass);
+      if (!found) {
+        showAuthError("Invalid Student Roll Number or Password.");
+        return;
+      }
+
+      session = { role: "student", roll: found.roll };
+      saveData("cpt_session_v3", session);
+      enterApp();
+      showToast(`Welcome back, ${found.name}!`);
+    }
+
+    function handleStudentRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById("reg-name").value.trim();
+      const roll = document.getElementById("reg-roll").value.trim().toUpperCase();
+      const branch = document.getElementById("reg-branch").value;
+      const cgpa = parseFloat(document.getElementById("reg-cgpa").value);
+      const password = document.getElementById("reg-pass").value;
+
+      if (students.some(s => s.roll.toUpperCase() === roll)) {
+        showAuthError("Roll number already registered. Please sign in.");
+        return;
+      }
+
+      const newStu = { roll, password, name, branch, cgpa };
+      students.push(newStu);
+      saveData("cpt_students_v3", students);
+
+      session = { role: "student", roll: newStu.roll };
+      saveData("cpt_session_v3", session);
+      e.target.reset();
+      toggleRegister(false);
+      enterApp();
+      showToast(`Account created! Welcome, ${newStu.name}.`);
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById("login-admin-user").value.trim();
+      const pass = document.getElementById("login-admin-pass").value;
+
+      if (user !== ADMIN_CREDENTIALS.username || pass !== ADMIN_CREDENTIALS.password) {
+        showAuthError("Invalid TPO Admin credentials.");
+        return;
+      }
+
+      session = { role: "admin", name: ADMIN_CREDENTIALS.name };
+      saveData("cpt_session_v3", session);
+      enterApp();
+      showToast("Logged in as TPO Admin.");
+    }
+
+    function quickDemoStudent(roll) {
+      setLoginRole("student");
+      toggleRegister(false);
+      const stu = students.find(s => s.roll === roll);
+      if (!stu) return;
+      document.getElementById("login-roll").value = stu.roll;
+      document.getElementById("login-stu-pass").value = stu.password;
+      session = { role: "student", roll: stu.roll };
+      saveData("cpt_session_v3", session);
+      enterApp();
+      showToast(`Logged in as ${stu.name} (${stu.roll})`);
+    }
+
+    function quickDemoAdmin() {
+      setLoginRole("admin");
+      document.getElementById("login-admin-user").value = ADMIN_CREDENTIALS.username;
+      document.getElementById("login-admin-pass").value = ADMIN_CREDENTIALS.password;
+      session = { role: "admin", name: ADMIN_CREDENTIALS.name };
+      saveData("cpt_session_v3", session);
+      enterApp();
+      showToast("Logged in as TPO Admin");
+    }
+
+    function logout() {
+      session = null;
+      localStorage.removeItem("cpt_session_v3");
+      document.getElementById("app-shell").classList.add("hidden");
+      document.getElementById("auth-screen").classList.remove("hidden");
+      hideAuthError();
+      showToast("Logged out successfully.");
+    }
+
+    function getCurrentStudent() {
+      if (!session || session.role !== "student") return null;
+      return students.find(s => s.roll === session.roll) || students[0];
+    }
+
+    function enterApp() {
+      if (!session) {
+        document.getElementById("auth-screen").classList.remove("hidden");
+        document.getElementById("app-shell").classList.add("hidden");
+        return;
+      }
+
+      document.getElementById("auth-screen").classList.add("hidden");
+      document.getElementById("app-shell").classList.remove("hidden");
+
+      const studentView = document.getElementById("view-student");
+      const adminView = document.getElementById("view-admin");
+
+      if (session.role === "student") {
+        const stu = getCurrentStudent();
+        studentView.classList.remove("hidden");
+        adminView.classList.add("hidden");
+        document.getElementById("header-role-sub").textContent = "Student Placement Portal";
+        document.getElementById("header-user-chip").innerHTML = `<span class="badge badge-info">Student</span> ${escapeHtml(stu.name)} (${escapeHtml(stu.roll)})`;
+        initStudentProfileInputs();
+        renderStudentView();
+      } else {
+        adminView.classList.remove("hidden");
+        studentView.classList.add("hidden");
+        document.getElementById("header-role-sub").textContent = "Admin / Placement Cell Portal";
+        document.getElementById("header-user-chip").innerHTML = `<span class="badge badge-purple">TPO Admin</span> Placement Cell`;
+        renderAdminView();
+      }
+    }
+
+    // ---------- Student Portal ----------
+    function initStudentProfileInputs() {
+      const stu = getCurrentStudent();
+      if (!stu) return;
+
+      const nameEl = document.getElementById("stu-name");
+      const rollEl = document.getElementById("stu-roll");
+      const branchEl = document.getElementById("stu-branch");
+      const cgpaEl = document.getElementById("stu-cgpa");
+
+      nameEl.value = stu.name;
+      rollEl.value = stu.roll;
+      branchEl.value = stu.branch;
+      cgpaEl.value = stu.cgpa;
+
+      document.getElementById("stu-badge-roll").textContent = `Roll No: ${stu.roll}`;
+      document.getElementById("student-welcome-title").textContent = `Welcome, ${stu.name}!`;
+
+      const updateStu = () => {
+        const target = getCurrentStudent();
+        if (!target) return;
+        target.name = nameEl.value.trim() || target.name;
+        target.branch = branchEl.value;
+        target.cgpa = parseFloat(cgpaEl.value) || 0;
+        saveData("cpt_students_v3", students);
+        document.getElementById("header-user-chip").innerHTML = `<span class="badge badge-info">Student</span> ${escapeHtml(target.name)} (${escapeHtml(target.roll)})`;
+        document.getElementById("student-welcome-title").textContent = `Welcome, ${target.name}!`;
+        renderStudentView();
+      };
+
+      nameEl.oninput = updateStu;
+      branchEl.oninput = updateStu;
+      cgpaEl.oninput = updateStu;
+    }
+
+    function renderStudentView() {
+      const stu = getCurrentStudent();
+      if (!stu) return;
+
+      const search = document.getElementById("student-search").value.toLowerCase();
+      const filter = document.getElementById("student-filter").value;
+      const sort = document.getElementById("student-sort").value;
+
+      const myApps = applications.filter(a => a.roll === stu.roll);
+      const eligibleCount = drives.filter(d => isEligible(d, stu)).length;
+      const topCtc = drives.length ? Math.max(...drives.map(d => Number(d.ctc))) : 0;
+
+      document.getElementById("student-stats").innerHTML = `
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#eff6ff;color:#2563eb;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          </div>
+          <div><div class="stat-label">Companies Visiting</div><div class="stat-value">${drives.length}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#dcfce7;color:#15803d;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div><div class="stat-label">Eligible For You</div><div class="stat-value" style="color:var(--success);">${eligibleCount}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#ede9fe;color:#6d28d9;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div><div class="stat-label">My Applications</div><div class="stat-value" style="color:var(--purple);">${myApps.length}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fef3c7;color:#b45309;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div><div class="stat-label">Highest Package</div><div class="stat-value" style="color:var(--warning);">${topCtc.toFixed(1)} LPA</div></div>
+        </div>
+      `;
+
+      let filtered = drives.filter(d => {
+        const hay = `${d.company} ${d.role} ${d.location || ""}`.toLowerCase();
+        const eligible = isEligible(d, stu);
+        const applied = myApps.some(a => a.driveId === d.id);
+        if (!hay.includes(search)) return false;
+        if (filter === "eligible" && !eligible) return false;
+        if (filter === "applied" && !applied) return false;
+        return true;
+      });
+
+      if (sort === "ctc-desc") filtered = [...filtered].sort((a, b) => Number(b.ctc) - Number(a.ctc));
+      else if (sort === "deadline-asc") filtered = [...filtered].sort((a, b) => a.deadline.localeCompare(b.deadline));
+
+      const grid = document.getElementById("student-drives-grid");
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;">No companies match your search or filter criteria.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(d => {
+        const eligible = isEligible(d, stu);
+        const closed = isDeadlinePassed(d.deadline);
+        const existingApp = myApps.find(a => a.driveId === d.id);
+
+        const eligBadge = eligible ? `<span class="badge badge-success">Eligible</span>` : `<span class="badge badge-danger">Not Eligible</span>`;
+        let actionHtml = "";
+        if (existingApp) actionHtml = `<span class="badge ${statusBadgeClass(existingApp.status)}">Status: ${escapeHtml(existingApp.status)}</span>`;
+        else if (closed) actionHtml = `<button class="btn btn-outline" disabled>Closed</button>`;
+        else if (!eligible) actionHtml = `<button class="btn btn-outline" disabled>Not Eligible</button>`;
+        else actionHtml = `<button class="btn btn-primary" onclick="applyToDrive('${d.id}')">Apply Now</button>`;
+
+        return `
+          <div class="drive-card">
+            <div>
+              <div class="drive-top">
+                <div class="company-brand">
+                  ${getCompanyLogoHtml(d, "md")}
+                  <div>
+                    <div class="company-title">${escapeHtml(d.company)}</div>
+                    <div class="company-sub">${escapeHtml(d.sector || "Tech")} • ${escapeHtml(d.location || "India")}</div>
+                  </div>
+                </div>
+                ${eligBadge}
+              </div>
+
+              <div class="role-title">${escapeHtml(d.role)}</div>
+
+              <div class="drive-meta" style="margin-top: 12px;">
+                <div class="meta-item"><span>Package (CTC)</span><strong>${Number(d.ctc).toFixed(1)} LPA</strong></div>
+                <div class="meta-item"><span>Min CGPA</span><strong>${Number(d.minCgpa).toFixed(1)}</strong></div>
+                <div class="meta-item"><span>Apply By</span><strong>${escapeHtml(d.deadline)}</strong></div>
+                <div class="meta-item"><span>Drive Date</span><strong>${escapeHtml(d.visitDate)}</strong></div>
+              </div>
+
+              <div class="branch-pills" style="margin-top: 12px;">
+                ${d.branches.map(b => `<span class="branch-pill">${escapeHtml(b)}</span>`).join("")}
+              </div>
+            </div>
+
+            <div class="drive-footer">
+              <button class="btn btn-outline" onclick="openDetailsModal('${d.id}')">Job Details</button>
+              ${actionHtml}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function applyToDrive(driveId) {
+      const stu = getCurrentStudent();
+      if (!stu) return;
+      if (applications.some(a => a.driveId === driveId && a.roll === stu.roll)) return;
+
+      applications.unshift({
+        id: "a" + Date.now(),
+        driveId,
+        studentName: stu.name,
+        roll: stu.roll,
+        branch: stu.branch,
+        cgpa: stu.cgpa,
+        appliedOn: new Date().toISOString().split("T")[0],
+        status: "Applied"
+      });
+
+      saveData("cpt_apps_v3", applications);
+      renderStudentView();
+      closeModal();
+      showToast("Application submitted successfully!");
+    }
+
+    // ---------- Modal ----------
+    function openDetailsModal(driveId) {
+      const stu = getCurrentStudent();
+      const d = drives.find(item => item.id === driveId);
+      if (!d || !stu) return;
+
+      const eligible = isEligible(d, stu);
+      const closed = isDeadlinePassed(d.deadline);
+      const existingApp = applications.find(a => a.driveId === d.id && a.roll === stu.roll);
+
+      let footerAction = "";
+      if (existingApp) footerAction = `<span class="badge ${statusBadgeClass(existingApp.status)}">Current Status: ${escapeHtml(existingApp.status)}</span>`;
+      else if (!closed && eligible) footerAction = `<button class="btn btn-primary" onclick="applyToDrive('${d.id}')">Apply to ${escapeHtml(d.company)}</button>`;
+      else footerAction = `<button class="btn btn-outline" disabled>${closed ? "Deadline Closed" : "Eligibility Not Met"}</button>`;
+
+      document.getElementById("modal-content").innerHTML = `
+        <div class="modal-head">
+          <div class="company-brand">
+            ${getCompanyLogoHtml(d, "md")}
+            <div>
+              <h3 style="font-size:1.18rem;">${escapeHtml(d.company)}</h3>
+              <p style="font-size:0.84rem;color:var(--muted);">${escapeHtml(d.role)} • ${escapeHtml(d.location || "India")}</p>
+            </div>
+          </div>
+          <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <p style="font-size:0.9rem;margin-bottom:14px;">${escapeHtml(d.desc || "Campus recruitment opportunity.")}</p>
+        <div class="drive-meta" style="margin-bottom:14px;">
+          <div class="meta-item"><span>Package</span><strong>${Number(d.ctc).toFixed(1)} LPA</strong></div>
+          <div class="meta-item"><span>Minimum CGPA</span><strong>${Number(d.minCgpa).toFixed(1)}</strong></div>
+          <div class="meta-item"><span>Deadline</span><strong>${escapeHtml(d.deadline)}</strong></div>
+          <div class="meta-item"><span>Campus Visit</span><strong>${escapeHtml(d.visitDate)}</strong></div>
+        </div>
+        <div style="margin-bottom:16px;font-size:0.86rem;">
+          <strong>Selection Process:</strong>
+          <p style="color:var(--muted);margin-top:4px;">${escapeHtml(d.rounds || "Online Assessment → Technical Interview → HR Round")}</p>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;">
+          <button class="btn btn-outline" onclick="closeModal()">Close</button>
+          ${footerAction}
+        </div>
+      `;
+      document.getElementById("details-modal").classList.add("open");
+    }
+
+    function closeModal() {
+      document.getElementById("details-modal").classList.remove("open");
+    }
+
+    // ---------- Admin / TPO Portal ----------
+    function renderAdminView() {
+      const shortlistedCount = applications.filter(a => a.status === "Shortlisted" || a.status === "Interview").length;
+      const selectedCount = applications.filter(a => a.status === "Selected").length;
+
+      document.getElementById("admin-company-count").textContent = drives.length;
+
+      document.getElementById("admin-stats").innerHTML = `
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#eff6ff;color:#2563eb;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div><div class="stat-label">Published Companies</div><div class="stat-value">${drives.length}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#ede9fe;color:#6d28d9;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div><div class="stat-label">Total Applications</div><div class="stat-value" style="color:var(--purple);">${applications.length}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#fef3c7;color:#b45309;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><div class="stat-label">Shortlist / Interview</div><div class="stat-value" style="color:var(--warning);">${shortlistedCount}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#dcfce7;color:#15803d;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div><div class="stat-label">Placed Students</div><div class="stat-value" style="color:var(--success);">${selectedCount}</div></div>
+        </div>
+      `;
+
+      const drivesTbody = document.getElementById("admin-drives-tbody");
+      drivesTbody.innerHTML = drives.length === 0
+        ? `<tr><td colspan="6" style="text-align:center;color:var(--muted);">No companies published yet.</td></tr>`
+        : drives.map(d => `
+          <tr>
+            <td>
+              <div class="table-company-cell">
+                ${getCompanyLogoHtml(d, "sm")}
+                <div><strong>${escapeHtml(d.company)}</strong><br><small style="color:var(--muted);">${escapeHtml(d.role)}</small></div>
+              </div>
+            </td>
+            <td>${escapeHtml(d.location || "India")}</td>
+            <td><strong>${Number(d.ctc).toFixed(1)} LPA</strong></td>
+            <td>CGPA &ge; ${Number(d.minCgpa).toFixed(1)}<br><small style="color:var(--muted);">${d.branches.map(escapeHtml).join(", ")}</small></td>
+            <td>${escapeHtml(d.deadline)}</td>
+            <td><button class="btn btn-danger" onclick="deleteDrive('${d.id}')">Delete</button></td>
+          </tr>
+        `).join("");
+
+      const filterSelect = document.getElementById("admin-app-filter");
+      const currentFilter = filterSelect.value;
+      filterSelect.innerHTML = `<option value="all">All Companies</option>` +
+        drives.map(d => `<option value="${d.id}">${escapeHtml(d.company)} (${escapeHtml(d.role)})</option>`).join("");
+      filterSelect.value = drives.some(d => d.id === currentFilter) ? currentFilter : "all";
+
+      const filteredApps = filterSelect.value === "all" ? applications : applications.filter(a => a.driveId === filterSelect.value);
+      const appsTbody = document.getElementById("admin-apps-tbody");
+
+      if (filteredApps.length === 0) {
+        appsTbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--muted);">No applications found.</td></tr>`;
+      } else {
+        const statuses = ["Applied", "Shortlisted", "Interview", "Selected", "Rejected"];
+        appsTbody.innerHTML = filteredApps.map(app => {
+          const drive = drives.find(d => d.id === app.driveId);
+          const companyInfo = drive ? `${escapeHtml(drive.company)} — ${escapeHtml(drive.role)}` : "Removed Drive";
+          return `
+            <tr>
+              <td><strong>${escapeHtml(app.studentName)}</strong><br><small style="color:var(--muted);">${escapeHtml(app.roll)}</small></td>
+              <td>${escapeHtml(app.branch)} • ${Number(app.cgpa).toFixed(1)} CGPA</td>
+              <td>${companyInfo}</td>
+              <td>${escapeHtml(app.appliedOn)}</td>
+              <td>
+                <select onchange="updateAppStatus('${app.id}', this.value)">
+                  ${statuses.map(s => `<option value="${s}" ${app.status === s ? "selected" : ""}>${s}</option>`).join("")}
+                </select>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      }
+    }
+
+    function handleAddDrive(e) {
+      e.preventDefault();
+      const checkedBranches = Array.from(document.querySelectorAll('input[name="branch"]:checked')).map(cb => cb.value);
+      if (checkedBranches.length === 0) {
+        showToast("Please select at least one branch.");
+        return;
+      }
+
+      const companyName = document.getElementById("drive-company").value.trim();
+      const newDrive = {
+        id: "d" + Date.now(),
+        logoKey: companyName.toLowerCase().replace(/[^a-z]/g, ""),
+        company: companyName,
+        sector: "Campus Drive",
+        location: document.getElementById("drive-location").value.trim(),
+        role: document.getElementById("drive-role").value.trim(),
+        ctc: parseFloat(document.getElementById("drive-ctc").value),
+        minCgpa: parseFloat(document.getElementById("drive-cgpa").value),
+        deadline: document.getElementById("drive-deadline").value,
+        visitDate: document.getElementById("drive-date").value,
+        desc: document.getElementById("drive-desc").value.trim() || "Campus placement opportunity for graduating students.",
+        branches: checkedBranches
+      };
+
+      drives.unshift(newDrive);
+      saveData("cpt_drives_v3", drives);
+      e.target.reset();
+      renderAdminView();
+      showToast(`Published drive for ${newDrive.company}!`);
+    }
+
+    function deleteDrive(driveId) {
+      drives = drives.filter(d => d.id !== driveId);
+      applications = applications.filter(a => a.driveId !== driveId);
+      saveData("cpt_drives_v3", drives);
+      saveData("cpt_apps_v3", applications);
+      renderAdminView();
+      showToast("Company drive removed.");
+    }
+
+    function updateAppStatus(appId, newStatus) {
+      const target = applications.find(a => a.id === appId);
+      if (target) {
+        target.status = newStatus;
+        saveData("cpt_apps_v3", applications);
+        renderAdminView();
+        showToast(`Updated ${target.studentName}'s status to ${newStatus}.`);
+      }
+    }
+
+    function exportApplicationsCSV() {
+      const filterId = document.getElementById("admin-app-filter").value;
+      const rows = filterId === "all" ? applications : applications.filter(a => a.driveId === filterId);
+
+      if (rows.length === 0) {
+        showToast("No applications to export.");
+        return;
+      }
+
+      const csvEscape = val => `"${String(val ?? "").replace(/"/g, '""')}"`;
+      const header = ["Roll No", "Student Name", "Branch", "CGPA", "Company", "Job Title", "Package (LPA)", "Applied On", "Status"];
+      const lines = [header.map(csvEscape).join(",")];
+
+      rows.forEach(app => {
+        const d = drives.find(item => item.id === app.driveId);
+        lines.push([
+          app.roll,
+          app.studentName,
+          app.branch,
+          app.cgpa,
+          d ? d.company : "N/A",
+          d ? d.role : "N/A",
+          d ? d.ctc : "N/A",
+          app.appliedOn,
+          app.status
+        ].map(csvEscape).join(","));
+      });
+
+      const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `placement_applications_${new Date().toISOString().split("T")[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Downloaded placement_applications.csv!");
+    }
+
+    function resetDemoData() {
+      students = JSON.parse(JSON.stringify(DEFAULT_STUDENTS));
+      drives = JSON.parse(JSON.stringify(DEFAULT_DRIVES));
+      applications = JSON.parse(JSON.stringify(DEFAULT_APPLICATIONS));
+      saveData("cpt_students_v3", students);
+      saveData("cpt_drives_v3", drives);
+      saveData("cpt_apps_v3", applications);
+      renderAdminView();
+      showToast("Demo data restored!");
+    }
+
+    // ---------- Boot ----------
+    enterApp();
+  </script>
+</body>
+</html>
